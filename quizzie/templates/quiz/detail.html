@@ -1,0 +1,19 @@
+<h1>{{ quiz.title }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="/quiz/{{ quiz.id }}/do/" method="post">
+<ol>
+{% csrf_token %}
+{% for q in quiz.question_set.all %}
+    <li>
+    {{ q.question }}<br />
+    {% for option in quiz.options %}
+        <input type="radio" name="q{{ q.id }}" id="{{ q.id }}{{ forloop.counter }}" value="{{ option }}">
+        <label for="{{ q.id }}{{ forloop.counter }}">{{ option }}</label><br />
+    {% endfor %}
+    </li>
+{% endfor %}
+</ol>
+<input type="submit" value="Submit" />
+</form>
